@@ -1,5 +1,6 @@
 package com.turnos.automation.tasks;
 
+import com.turnos.automation.models.SignInRequest;
 import com.turnos.automation.models.UserRequest;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
@@ -9,23 +10,23 @@ import static net.serenitybdd.rest.SerenityRest.lastResponse;
 
 public class RegisterUser implements Task {
 
-    private final String nombre;
+    private final String name;
     private final String email;
     private final String password;
 
-    public RegisterUser(String nombre, String email, String password) {
-        this.nombre = nombre;
+    public RegisterUser(String name, String email, String password) {
+        this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public static RegisterUser withCredentials(String nombre, String email, String password) {
-        return new RegisterUser(nombre, email, password);
+    public static RegisterUser withCredentials(String name, String email, String password) {
+        return new RegisterUser(name, email, password);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        UserRequest userRequest = new UserRequest(email, password, nombre, "empleado");
+        UserRequest userRequest = new UserRequest(email, password, name, "empleado");
 
         actor.attemptsTo(
             Post.to("/auth/signUp")
@@ -35,6 +36,15 @@ public class RegisterUser implements Task {
         );
 
         String token = lastResponse().jsonPath().getString("token");
+        if (token == null) {
+            actor.attemptsTo(
+                Post.to("/auth/signIn")
+                    .with(request -> request
+                        .header("Content-Type", "application/json")
+                        .body(new SignInRequest(email, password)))
+            );
+            token = lastResponse().jsonPath().getString("token");
+        }
         if (token != null) {
             actor.remember("authToken", token);
         }

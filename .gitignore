@@ -1,13 +1,40 @@
+# Gradle
 .gradle/
+gradle-app.setting
+gradlew.bak
+
+# Build output
 build/
+out/
+bin/
 target/
-history/
+
+# Compiled Java classes
 *.class
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+
+# Serenity BDD reports
+serenity/
+reports/
+site/
+
+# IDE - IntelliJ IDEA
 .idea/
 *.iml
 *.ipr
 *.iws
+
+# IDE - VS Code
+.vscode/
+
+# OS
 .DS_Store
-out/
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test results
+test-results/

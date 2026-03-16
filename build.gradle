@@ -1,0 +1,68 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "net.serenity-bdd:serenity-gradle-plugin:2.4.34"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group = 'com.turnos.automation'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    serenityCoreVersion = '4.2.34'
+    cucumberVersion = '7.18.0'
+    junitVersion = '5.10.3'
+}
+
+dependencies {
+    testImplementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-cucumber:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-screenplay-rest:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-rest-assured:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-ensure:${serenityCoreVersion}"
+
+    testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.platform:junit-platform-launcher:1.10.3"
+    testImplementation "org.junit.platform:junit-platform-suite:1.10.3"
+
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'cucumber.junit-platform.naming-strategy', 'long'
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
+}

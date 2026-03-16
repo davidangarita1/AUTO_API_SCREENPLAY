@@ -7,15 +7,11 @@ import com.turnos.automation.tasks.CreateTurno;
 import com.turnos.automation.tasks.GetTurnosByCedula;
 import com.turnos.automation.tasks.ListAllTurnos;
 import com.turnos.automation.tasks.RegisterUser;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import net.serenitybdd.screenplay.actors.Cast;
 import net.serenitybdd.screenplay.actors.OnStage;
-import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
-import net.thucydides.model.environment.SystemEnvironmentVariables;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -23,21 +19,10 @@ import static org.hamcrest.Matchers.is;
 
 public class TurnosStepDefinitions {
 
-    private static final String BASE_URL_KEY = "restapi.base.url";
-    private static final String DEFAULT_BASE_URL = "http://localhost:3000";
-
-    @Before
-    public void prepareStage() {
-        String baseUrl = SystemEnvironmentVariables.createEnvironmentVariables()
-                .getProperty(BASE_URL_KEY, DEFAULT_BASE_URL);
-        OnStage.setTheStage(Cast.whereEveryoneCan(CallAnApi.at(baseUrl)));
-        OnStage.theActorCalled("testUser");
-    }
-
     @Given("el usuario registra una nueva cuenta con nombre {string} email {string} y contraseña {string}")
-    public void theUserRegistersANewAccount(String nombre, String email, String password) {
+    public void theUserRegistersANewAccount(String name, String email, String password) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-            RegisterUser.withCredentials(nombre, email, password)
+            RegisterUser.withCredentials(name, email, password)
         );
     }
 
@@ -50,9 +35,9 @@ public class TurnosStepDefinitions {
     }
 
     @When("el usuario crea un turno para el paciente {string} con cedula {long} y prioridad {string}")
-    public void theUserCreatesATurno(String nombre, long cedula, String priority) {
+    public void theUserCreatesATurno(String name, long cedula, String priority) {
         OnStage.theActorInTheSpotlight().attemptsTo(
-            CreateTurno.forPatient(nombre, cedula, priority)
+            CreateTurno.forPatient(name, cedula, priority)
         );
     }
 

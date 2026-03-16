@@ -8,22 +8,22 @@ import net.serenitybdd.screenplay.rest.interactions.Post;
 public class CreateTurno implements Task {
 
     private final long cedula;
-    private final String nombre;
+    private final String name;
     private final String priority;
 
-    public CreateTurno(long cedula, String nombre, String priority) {
+    public CreateTurno(long cedula, String name, String priority) {
         this.cedula = cedula;
-        this.nombre = nombre;
+        this.name = name;
         this.priority = priority;
     }
 
-    public static CreateTurno forPatient(String nombre, long cedula, String priority) {
-        return new CreateTurno(cedula, nombre, priority);
+    public static CreateTurno forPatient(String name, long cedula, String priority) {
+        return new CreateTurno(cedula, name, priority);
     }
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        TurnoRequest turnoRequest = new TurnoRequest(cedula, nombre, priority);
+        TurnoRequest turnoRequest = new TurnoRequest(cedula, name, priority);
         String token = actor.recall("authToken");
 
         actor.attemptsTo(

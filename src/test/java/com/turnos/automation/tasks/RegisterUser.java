@@ -1,6 +1,5 @@
 package com.turnos.automation.tasks;
 
-import com.turnos.automation.models.SignInRequest;
 import com.turnos.automation.models.UserRequest;
 import com.turnos.automation.util.ApiConstants;
 import net.serenitybdd.screenplay.Actor;
@@ -27,27 +26,17 @@ public class RegisterUser implements Task {
 
     @Override
     public <T extends Actor> void performAs(T actor) {
-        UserRequest userRequest = new UserRequest(email, password, name, "empleado");
-
         actor.attemptsTo(
             Post.to(ApiConstants.ENDPOINT_SIGN_UP)
                 .with(request -> request
                     .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
-                    .body(userRequest))
+                    .body(new UserRequest(email, password, name, "empleado")))
         );
 
         String token = lastResponse().jsonPath().getString("token");
-        if (token == null) {
-            actor.attemptsTo(
-                Post.to(ApiConstants.ENDPOINT_SIGN_IN)
-                    .with(request -> request
-                        .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
-                        .body(new SignInRequest(email, password)))
-            );
-            token = lastResponse().jsonPath().getString("token");
-        }
         if (token != null) {
             actor.remember("authToken", token);
         }
     }
 }
+

@@ -1,6 +1,7 @@
 package com.turnos.automation.tasks;
 
 import com.turnos.automation.models.TurnoRequest;
+import com.turnos.automation.util.ApiConstants;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Post;
@@ -27,10 +28,10 @@ public class CreateTurno implements Task {
         String token = actor.recall("authToken");
 
         actor.attemptsTo(
-            Post.to("/turnos")
+            Post.to(ApiConstants.ENDPOINT_TURNOS)
                 .with(request -> request
-                    .header("Content-Type", "application/json")
-                    .header("Authorization", "Bearer " + token)
+                    .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
+                    .header(ApiConstants.AUTHORIZATION_HEADER, ApiConstants.BEARER_PREFIX + token)
                     .body(turnoRequest))
         );
     }

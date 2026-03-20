@@ -1,5 +1,6 @@
 package com.turnos.automation.tasks;
 
+import com.turnos.automation.util.ApiConstants;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Get;
@@ -15,9 +16,9 @@ public class ListAllTurnos implements Task {
         String token = actor.recall("authToken");
 
         actor.attemptsTo(
-            Get.resource("/turnos")
+            Get.resource(ApiConstants.ENDPOINT_TURNOS)
                 .with(request -> request
-                    .header("Authorization", "Bearer " + token))
+                    .header(ApiConstants.AUTHORIZATION_HEADER, ApiConstants.BEARER_PREFIX + token))
         );
     }
 }

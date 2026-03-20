@@ -2,6 +2,7 @@ package com.turnos.automation.tasks;
 
 import com.turnos.automation.models.SignInRequest;
 import com.turnos.automation.models.UserRequest;
+import com.turnos.automation.util.ApiConstants;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Post;
@@ -29,18 +30,18 @@ public class RegisterUser implements Task {
         UserRequest userRequest = new UserRequest(email, password, name, "empleado");
 
         actor.attemptsTo(
-            Post.to("/auth/signUp")
+            Post.to(ApiConstants.ENDPOINT_SIGN_UP)
                 .with(request -> request
-                    .header("Content-Type", "application/json")
+                    .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
                     .body(userRequest))
         );
 
         String token = lastResponse().jsonPath().getString("token");
         if (token == null) {
             actor.attemptsTo(
-                Post.to("/auth/signIn")
+                Post.to(ApiConstants.ENDPOINT_SIGN_IN)
                     .with(request -> request
-                        .header("Content-Type", "application/json")
+                        .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
                         .body(new SignInRequest(email, password)))
             );
             token = lastResponse().jsonPath().getString("token");

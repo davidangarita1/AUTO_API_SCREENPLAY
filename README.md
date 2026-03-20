@@ -68,11 +68,19 @@ AUTO_API_SCREENPLAY/
 
 ## Tech Stack
 
-| Component      | Technology                              |
-|----------------|-----------------------------------------|
-| Language       | Java 17                                 |
-| Build tool     | Gradle (Groovy DSL)                     |
-| Framework      | Serenity BDD + Serenity Rest Assured    |
-| Test runner    | Cucumber with JUnit 5                   |
-| Pattern        | Screenplay (Actors, Tasks, Questions)   |
-| HTTP ability   | `CallAnApi` (no WebDriver)              |
+| Component      | Technology                                          |
+|----------------|-----------------------------------------------------|
+| Language       | Java 17                                             |
+| Build tool     | Gradle (Groovy DSL)                                 |
+| Framework      | Serenity BDD + serenity-rest-assured + serenity-screenplay-rest |
+| Test runner    | Cucumber with JUnit 5 (Platform Suite)              |
+| Pattern        | Screenplay (Actors, Tasks, Questions)               |
+| HTTP ability   | `CallAnApi` (no WebDriver)                          |
+
+## Configuration
+
+The base URL is read from `serenity.conf` (`restapi.base.url`). To override it at runtime:
+
+```bash
+./gradlew clean test -Drestapi.base.url=http://your-host:3000
+```

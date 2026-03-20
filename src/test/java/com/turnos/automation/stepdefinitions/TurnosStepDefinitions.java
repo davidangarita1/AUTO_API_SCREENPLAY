@@ -1,4 +1,4 @@
-package com.turnos.automation.steps;
+package com.turnos.automation.stepdefinitions;
 
 import com.turnos.automation.questions.ResponseContainsToken;
 import com.turnos.automation.questions.ResponseStatusCode;

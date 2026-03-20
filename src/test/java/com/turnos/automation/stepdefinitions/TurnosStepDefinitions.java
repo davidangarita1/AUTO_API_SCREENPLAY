@@ -36,7 +36,7 @@ public class TurnosStepDefinitions {
         );
     }
 
-    @When("el empleado registra un nuevo turno para el paciente {string} con cedula {long} y prioridad {string}")
+    @When("el empleado registra un nuevo turno para el paciente {string} con {long} y {string}")
     public void theEmployeeRegistersATurno(String name, long cedula, String priority) {
         OnStage.theActorInTheSpotlight().attemptsTo(
             CreateTurno.forPatient(name, cedula, priority)
@@ -65,7 +65,7 @@ public class TurnosStepDefinitions {
         );
     }
 
-    @When("el empleado busca los turnos registrados a nombre de la cedula {long}")
+    @When("el empleado busca los turnos registrados a nombre de la {long}")
     public void theEmployeeGetsTurnosByCedula(long cedula) {
         OnStage.theActorInTheSpotlight().attemptsTo(
             GetTurnosByCedula.withCedula(cedula)

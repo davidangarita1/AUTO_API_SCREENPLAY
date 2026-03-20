@@ -23,6 +23,12 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: "net.serenity-bdd.serenity-gradle-plugin"
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 ext {
     serenity_version = '5.3.2'
     junit_platform_launcher_version = "1.13.0"

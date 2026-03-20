@@ -4,7 +4,7 @@ Automated API test project for a Turnos (appointment scheduling) system using **
 
 ## Prerequisites
 
-- Java 17 installed and configured (`JAVA_HOME` set)
+- Java 21 installed and configured (`JAVA_HOME` set)
 - The Turnos API running on `http://localhost:3000`
   - MongoDB running (default port 27017)
   - RabbitMQ running (default port 5672)
@@ -70,7 +70,7 @@ AUTO_API_SCREENPLAY/
 
 | Component      | Technology                                          |
 |----------------|-----------------------------------------------------|
-| Language       | Java 17                                             |
+| Language       | Java 21                                             |
 | Build tool     | Gradle (Groovy DSL)                                 |
 | Framework      | Serenity BDD + serenity-rest-assured + serenity-screenplay-rest |
 | Test runner    | Cucumber with JUnit 5 (Platform Suite)              |

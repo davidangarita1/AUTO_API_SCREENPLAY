@@ -17,6 +17,7 @@ public final class Constants {
 
     public static final String TEST_USER_NAME = "API Test User";
     public static final String TEST_USER_PASSWORD = "Test1234!";
+    public static final String TEST_USER_ROLE = "empleado";
     public static final String TEST_EMAIL_PREFIX = "api_test_";
     public static final String TEST_EMAIL_DOMAIN = "@correo.com";
 }

@@ -30,7 +30,7 @@ public class RegisterUser implements Task {
             Post.to(Constants.ENDPOINT_SIGN_UP)
                 .with(request -> request
                     .header(Constants.CONTENT_TYPE_HEADER, Constants.APPLICATION_JSON)
-                    .body(new UserRequest(email, password, name, "empleado")))
+                    .body(new UserRequest(email, password, name, Constants.TEST_USER_ROLE)))
         );
 
         String token = lastResponse().jsonPath().getString("token");

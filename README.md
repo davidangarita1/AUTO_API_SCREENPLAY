@@ -53,11 +53,13 @@ AUTO_API_SCREENPLAY/
 │       │   └── com/
 │       │       └── turnos/
 │       │           └── automation/
-│       │               ├── tasks/       ← Tasks for each API operation
-│       │               ├── questions/   ← Questions to verify responses
-│       │               ├── models/      ← POJOs/DTOs for request/response bodies
-│       │               ├── steps/       ← Cucumber Step Definitions
-│       │               └── runners/     ← Cucumber runner with Serenity
+│       │               ├── hooks/           ← Cucumber lifecycle (ActorSetup)
+│       │               ├── stepdefinitions/ ← Cucumber Step Definitions
+│       │               ├── tasks/           ← Tasks for each API operation
+│       │               ├── questions/       ← Questions to verify responses
+│       │               ├── models/          ← POJOs/DTOs for request/response bodies
+│       │               ├── util/            ← Shared constants (ApiConstants)
+│       │               └── runners/         ← Cucumber runner with Serenity
 │       └── resources/
 │           ├── serenity.conf
 │           └── features/

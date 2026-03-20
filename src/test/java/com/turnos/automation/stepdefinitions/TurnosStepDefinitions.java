@@ -11,6 +11,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import com.turnos.automation.util.ApiConstants;
 import net.serenitybdd.screenplay.actors.OnStage;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -19,61 +20,62 @@ import static org.hamcrest.Matchers.is;
 
 public class TurnosStepDefinitions {
 
-    @Given("el usuario registra una nueva cuenta con nombre {string} email {string} y contraseña {string}")
-    public void theUserRegistersANewAccount(String name, String email, String password) {
+    @Given("que el empleado tiene una cuenta activa en el sistema")
+    public void theEmployeeHasAnActiveAccount() {
+        String uniqueEmail = ApiConstants.TEST_EMAIL_PREFIX + System.currentTimeMillis() + ApiConstants.TEST_EMAIL_DOMAIN;
         OnStage.theActorInTheSpotlight().attemptsTo(
-            RegisterUser.withCredentials(name, email, password)
+            RegisterUser.withCredentials(ApiConstants.TEST_USER_NAME, uniqueEmail, ApiConstants.TEST_USER_PASSWORD)
         );
     }
 
-    @And("el sistema responde con un codigo 201 y retorna un token de autenticacion")
-    public void theSystemResponds201WithToken() {
+    @And("el sistema confirma que la cuenta fue creada exitosamente")
+    public void theSystemConfirmsAccountCreated() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(201)),
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_CREATED)),
             seeThat(ResponseContainsToken.inTheLastResponse(), is(true))
         );
     }
 
-    @When("el usuario crea un turno para el paciente {string} con cedula {long} y prioridad {string}")
-    public void theUserCreatesATurno(String name, long cedula, String priority) {
+    @When("el empleado registra un nuevo turno para el paciente {string} con cedula {long} y prioridad {string}")
+    public void theEmployeeRegistersATurno(String name, long cedula, String priority) {
         OnStage.theActorInTheSpotlight().attemptsTo(
             CreateTurno.forPatient(name, cedula, priority)
         );
     }
 
-    @Then("el sistema responde con un codigo 202 indicando que el turno fue aceptado")
-    public void theSystemResponds202() {
+    @Then("el sistema confirma que el turno fue recibido y puesto en cola")
+    public void theSystemConfirmsTurnoQueued() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(202))
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_ACCEPTED))
         );
     }
 
-    @When("el usuario consulta la lista completa de turnos")
-    public void theUserListsAllTurnos() {
+    @When("el empleado consulta todos los turnos pendientes")
+    public void theEmployeeListsAllTurnos() {
         OnStage.theActorInTheSpotlight().attemptsTo(
             ListAllTurnos.fromApi()
         );
     }
 
-    @Then("el sistema responde con un codigo 200 y una lista que contiene turnos")
-    public void theSystemResponds200WithTurnosList() {
+    @Then("el sistema retorna la lista de turnos con al menos un registro")
+    public void theSystemReturnsTurnosList() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(200)),
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_OK)),
             seeThat(TurnosListIsNotEmpty.inTheLastResponse(), is(true))
         );
     }
 
-    @When("el usuario consulta los turnos del paciente con cedula {long}")
-    public void theUserGetsTurnosByCedula(long cedula) {
+    @When("el empleado busca los turnos registrados a nombre de la cedula {long}")
+    public void theEmployeeGetsTurnosByCedula(long cedula) {
         OnStage.theActorInTheSpotlight().attemptsTo(
             GetTurnosByCedula.withCedula(cedula)
         );
     }
 
-    @Then("el sistema responde con un codigo 200 y los datos del turno del paciente")
-    public void theSystemResponds200WithPatientTurno() {
+    @Then("el sistema retorna la informacion del turno del paciente")
+    public void theSystemReturnsPatientTurno() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(200))
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_OK))
         );
     }
 }

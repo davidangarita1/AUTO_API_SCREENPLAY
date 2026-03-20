@@ -1,7 +1,7 @@
 package com.turnos.automation.tasks;
 
 import com.turnos.automation.models.UserRequest;
-import com.turnos.automation.util.ApiConstants;
+import com.turnos.automation.util.Constants;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.rest.interactions.Post;
@@ -27,9 +27,9 @@ public class RegisterUser implements Task {
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-            Post.to(ApiConstants.ENDPOINT_SIGN_UP)
+            Post.to(Constants.ENDPOINT_SIGN_UP)
                 .with(request -> request
-                    .header(ApiConstants.CONTENT_TYPE_HEADER, ApiConstants.APPLICATION_JSON)
+                    .header(Constants.CONTENT_TYPE_HEADER, Constants.APPLICATION_JSON)
                     .body(new UserRequest(email, password, name, "empleado")))
         );
 

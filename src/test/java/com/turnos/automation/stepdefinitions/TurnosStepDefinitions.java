@@ -11,7 +11,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import com.turnos.automation.util.ApiConstants;
+import com.turnos.automation.util.Constants;
 import net.serenitybdd.screenplay.actors.OnStage;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -22,16 +22,16 @@ public class TurnosStepDefinitions {
 
     @Given("que el empleado tiene una cuenta activa en el sistema")
     public void theEmployeeHasAnActiveAccount() {
-        String uniqueEmail = ApiConstants.TEST_EMAIL_PREFIX + System.currentTimeMillis() + ApiConstants.TEST_EMAIL_DOMAIN;
+        String uniqueEmail = Constants.TEST_EMAIL_PREFIX + System.currentTimeMillis() + Constants.TEST_EMAIL_DOMAIN;
         OnStage.theActorInTheSpotlight().attemptsTo(
-            RegisterUser.withCredentials(ApiConstants.TEST_USER_NAME, uniqueEmail, ApiConstants.TEST_USER_PASSWORD)
+            RegisterUser.withCredentials(Constants.TEST_USER_NAME, uniqueEmail, Constants.TEST_USER_PASSWORD)
         );
     }
 
     @And("el sistema confirma que la cuenta fue creada exitosamente")
     public void theSystemConfirmsAccountCreated() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_CREATED)),
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(Constants.STATUS_CREATED)),
             seeThat(ResponseContainsToken.inTheLastResponse(), is(true))
         );
     }
@@ -46,7 +46,7 @@ public class TurnosStepDefinitions {
     @Then("el sistema confirma que el turno fue recibido y puesto en cola")
     public void theSystemConfirmsTurnoQueued() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_ACCEPTED))
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(Constants.STATUS_ACCEPTED))
         );
     }
 
@@ -60,7 +60,7 @@ public class TurnosStepDefinitions {
     @Then("el sistema retorna la lista de turnos con al menos un registro")
     public void theSystemReturnsTurnosList() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_OK)),
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(Constants.STATUS_OK)),
             seeThat(TurnosListIsNotEmpty.inTheLastResponse(), is(true))
         );
     }
@@ -75,7 +75,7 @@ public class TurnosStepDefinitions {
     @Then("el sistema retorna la informacion del turno del paciente")
     public void theSystemReturnsPatientTurno() {
         OnStage.theActorInTheSpotlight().should(
-            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(ApiConstants.STATUS_OK))
+            seeThat(ResponseStatusCode.ofTheLastResponse(), equalTo(Constants.STATUS_OK))
         );
     }
 }

@@ -1,8 +1,8 @@
 package com.turnos.automation.hooks;
 
-import com.turnos.automation.util.ApiConstants;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import net.serenitybdd.model.environment.EnvironmentSpecificConfiguration;
 import net.serenitybdd.screenplay.actors.Cast;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
@@ -12,8 +12,9 @@ public class ActorSetup {
 
     @Before
     public void setTheStage() {
-        String baseUrl = SystemEnvironmentVariables.createEnvironmentVariables()
-                .getProperty(ApiConstants.BASE_URL_KEY, ApiConstants.DEFAULT_BASE_URL);
+        String baseUrl = EnvironmentSpecificConfiguration
+                .from(SystemEnvironmentVariables.currentEnvironmentVariables())
+                .getProperty("restapi.base.url");
         OnStage.setTheStage(Cast.whereEveryoneCan(CallAnApi.at(baseUrl)));
         OnStage.theActorCalled("testUser");
     }

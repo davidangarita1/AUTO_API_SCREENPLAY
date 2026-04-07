@@ -10,10 +10,12 @@ public final class Constants {
     public static final String ENDPOINT_SIGN_UP = "/auth/signUp";
     public static final String ENDPOINT_SIGN_IN = "/auth/signIn";
     public static final String ENDPOINT_TURNOS = "/turnos";
+    public static final String ENDPOINT_DOCTORS = "/api/v1/doctors";
 
     public static final int STATUS_CREATED = 201;
     public static final int STATUS_ACCEPTED = 202;
     public static final int STATUS_OK = 200;
+    public static final int STATUS_NO_CONTENT = 204;
 
     public static final String TEST_USER_NAME = "API Test User";
     public static final String TEST_USER_PASSWORD = "Test1234!";

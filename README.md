@@ -1,6 +1,11 @@
 # AUTO_API_SCREENPLAY
 
-Automated API test project for a Turnos (appointment scheduling) system using **Java 17 + Serenity BDD + Cucumber + Gradle** with the **Screenplay pattern**.
+Automated API test project for the EPS appointment and doctors management system using **Java 21 + Serenity BDD + Cucumber + Gradle** with the **Screenplay pattern**.
+
+Covers two API modules:
+
+- **Turnos** — full lifecycle of an appointment: register user, create turno, list, query by cedula.
+- **Doctors** — full CRUD lifecycle: create doctor, list active doctors, update office/shift, soft delete.
 
 ## Prerequisites
 
@@ -54,17 +59,58 @@ AUTO_API_SCREENPLAY/
 │       │       └── turnos/
 │       │           └── automation/
 │       │               ├── hooks/           ← Cucumber lifecycle (ActorSetup)
-│       │               ├── stepdefinitions/ ← Cucumber Step Definitions
+│       │               ├── stepdefinitions/ ← Step Definitions per module
+│       │               │   ├── TurnosStepDefinitions.java
+│       │               │   └── DoctorsStepDefinitions.java
 │       │               ├── tasks/           ← Tasks for each API operation
+│       │               │   ├── RegisterUser.java
+│       │               │   ├── CreateTurno.java
+│       │               │   ├── ListAllTurnos.java
+│       │               │   ├── GetTurnosByCedula.java
+│       │               │   ├── CreateDoctor.java
+│       │               │   ├── ListAllDoctors.java
+│       │               │   ├── UpdateDoctor.java
+│       │               │   └── DeleteDoctor.java
 │       │               ├── questions/       ← Questions to verify responses
-│       │               ├── models/          ← POJOs/DTOs for request/response bodies
-│       │               ├── util/            ← Shared constants (ApiConstants)
+│       │               │   ├── ResponseStatusCode.java
+│       │               │   ├── ResponseContainsToken.java
+│       │               │   ├── TurnosListIsNotEmpty.java
+│       │               │   ├── DoctorsListIsNotEmpty.java
+│       │               │   └── ResponseContainsDoctorId.java
+│       │               ├── models/          ← POJOs/DTOs for request bodies
+│       │               │   ├── UserRequest.java
+│       │               │   ├── TurnoRequest.java
+│       │               │   ├── DoctorRequest.java
+│       │               │   └── DoctorUpdateRequest.java
+│       │               ├── util/            ← Shared constants
 │       │               └── runners/         ← Cucumber runner with Serenity
 │       └── resources/
 │           ├── serenity.conf
 │           └── features/
-│               └── crud_turnos.feature
+│               ├── crud_turnos.feature
+│               └── crud_doctors.feature
 ```
+
+## Automated Scenarios
+
+### Turnos (`crud_turnos.feature`)
+
+| Step | Action | Assertion |
+|---|---|---|
+| Given | Register employee account | Status 201 + token present |
+| When | Create turno for patient | Status 202 |
+| When | List all pending turnos | Status 200 + list not empty |
+| When | Query turnos by cedula | Status 200 |
+
+### Doctors (`crud_doctors.feature`)
+
+| Step | Action | Assertion |
+|---|---|---|
+| Given | Authenticate as employee | Status 201 + token present |
+| When | Create doctor (name + documentId) | Status 201 + `_id` present |
+| When | List all active doctors | Status 200 + list not empty |
+| When | Update doctor office and shift | Status 200 |
+| When | Soft delete doctor | Status 204 |
 
 ## Tech Stack
 

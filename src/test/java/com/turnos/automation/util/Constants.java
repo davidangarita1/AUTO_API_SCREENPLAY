@@ -16,6 +16,8 @@ public final class Constants {
     public static final int STATUS_ACCEPTED = 202;
     public static final int STATUS_OK = 200;
     public static final int STATUS_NO_CONTENT = 204;
+    public static final int STATUS_BAD_REQUEST = 400;
+    public static final int STATUS_CONFLICT = 409;
 
     public static final String TEST_USER_NAME = "API Test User";
     public static final String TEST_USER_PASSWORD = "Test1234!";

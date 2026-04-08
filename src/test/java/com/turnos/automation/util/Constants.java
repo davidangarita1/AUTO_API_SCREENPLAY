@@ -24,4 +24,5 @@ public final class Constants {
     public static final String TEST_USER_ROLE = "empleado";
     public static final String TEST_EMAIL_PREFIX = "api_test_";
     public static final String TEST_EMAIL_DOMAIN = "@correo.com";
+    public static final String CLEANUP_EMAIL = "api_cleanup@correo.com";
 }

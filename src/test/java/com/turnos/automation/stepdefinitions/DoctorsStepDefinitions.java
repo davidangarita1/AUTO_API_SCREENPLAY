@@ -40,15 +40,12 @@ public class DoctorsStepDefinitions {
 
     @When("el empleado crea un medico con nombre {string} y cedula {string}")
     public void theEmployeeCreatesADoctor(String nombre, String cedula) {
-        String finalCedula;
-        if (cedula.matches("\\d{7,10}")) {
-            finalCedula = String.valueOf(System.currentTimeMillis() % 9000000L + 1000000L);
-        } else {
-            finalCedula = cedula;
-        }
-        OnStage.theActorInTheSpotlight().remember("doctorCedula", finalCedula);
+        String uniqueCedula = cedula.length() >= 7
+                ? cedula.substring(0, 5) + System.currentTimeMillis() % 100000
+                : cedula;
+        OnStage.theActorInTheSpotlight().remember("doctorCedula", uniqueCedula);
         OnStage.theActorInTheSpotlight().attemptsTo(
-            CreateDoctor.withData(nombre, finalCedula)
+            CreateDoctor.withData(nombre, uniqueCedula)
         );
     }
 
@@ -120,7 +117,9 @@ public class DoctorsStepDefinitions {
 
     @When("el empleado crea un medico con nombre {string} cedula {string} consultorio {string} y franja {string}")
     public void theEmployeeCreatesWithOfficeAndShift(String nombre, String cedula, String office, String shift) {
-        String uniqueCedula = String.valueOf(System.currentTimeMillis() % 9000000L + 1000000L);
+        String uniqueCedula = cedula.length() >= 7
+                ? cedula.substring(0, 5) + System.currentTimeMillis() % 100000
+                : cedula;
         OnStage.theActorInTheSpotlight().remember("doctorCedula", uniqueCedula);
         OnStage.theActorInTheSpotlight().attemptsTo(
             CreateDoctor.withFullData(nombre, uniqueCedula, office, shift)

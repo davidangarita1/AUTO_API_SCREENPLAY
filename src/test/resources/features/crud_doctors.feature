@@ -1,5 +1,6 @@
 Feature: Ciclo completo de gestion de medicos
 
+  @limpiar_medicos
   Scenario Outline: Un empleado gestiona el ciclo de vida de un medico desde su creacion hasta su baja
     Given que el empleado se autentica en el sistema
     And el sistema confirma que la autenticacion fue exitosa
@@ -20,6 +21,7 @@ Feature: Ciclo completo de gestion de medicos
       | nombre       | cedula     | office | shift       |
       | Juan Garcia  | 1098700001 | 2      | 06:00-14:00 |
 
+  @limpiar_medicos
   Scenario: El sistema rechaza la creacion de un medico con cedula duplicada
     Given que el empleado se autentica en el sistema
     And el sistema confirma que la autenticacion fue exitosa
@@ -27,6 +29,8 @@ Feature: Ciclo completo de gestion de medicos
     Then el sistema confirma que el medico fue creado exitosamente
     When el empleado crea un medico con nombre "Duplicado Doc" y la misma cedula
     Then el sistema responde con codigo 409
+    When el empleado da de baja al medico creado
+    Then el sistema confirma que el medico fue dado de baja exitosamente
 
   Scenario Outline: El sistema rechaza la creacion de un medico con datos invalidos
     Given que el empleado se autentica en el sistema
@@ -39,8 +43,11 @@ Feature: Ciclo completo de gestion de medicos
       | Ju     | 1098700099 |
       | Valido | 123        |
 
+  @limpiar_medicos
   Scenario: Un empleado crea un medico con consultorio y franja horaria
     Given que el empleado se autentica en el sistema
     And el sistema confirma que la autenticacion fue exitosa
-    When el empleado crea un medico con nombre "Ana Torres" cedula "3334400001" consultorio "9" y franja "14:00-22:00"
+    When el empleado crea un medico con nombre "Ana Torres" cedula "3334400001" consultorio "3" y franja "14:00-22:00"
     Then el sistema confirma que el medico fue creado exitosamente
+    When el empleado da de baja al medico creado
+    Then el sistema confirma que el medico fue dado de baja exitosamente

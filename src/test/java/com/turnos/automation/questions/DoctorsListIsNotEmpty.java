@@ -15,7 +15,7 @@ public class DoctorsListIsNotEmpty implements Question<Boolean> {
 
     @Override
     public Boolean answeredBy(Actor actor) {
-        List<?> doctors = lastResponse().jsonPath().getList("$");
+        List<?> doctors = lastResponse().jsonPath().getList("data");
         return doctors != null && !doctors.isEmpty();
     }
 }

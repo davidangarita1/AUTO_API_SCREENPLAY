@@ -42,5 +42,5 @@ Feature: Ciclo completo de gestion de medicos
   Scenario: Un empleado crea un medico con consultorio y franja horaria
     Given que el empleado se autentica en el sistema
     And el sistema confirma que la autenticacion fue exitosa
-    When el empleado crea un medico con nombre "Ana Torres" cedula "3334400001" consultorio "3" y franja "14:00-22:00"
+    When el empleado crea un medico con nombre "Ana Torres" cedula "3334400001" consultorio "9" y franja "14:00-22:00"
     Then el sistema confirma que el medico fue creado exitosamente
